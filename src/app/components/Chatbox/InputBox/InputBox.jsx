@@ -41,7 +41,7 @@ export default class InputBox extends Component {
       <form className="inputbox-form" onSubmit={this.handleSubmit} >
       <span> <div/> </span>
       <input type="text" placeholder="type to talk to aura!!?" value={this.state.text} onChange={this.handleTextChange} />
-      <input type="submit" value="Post" />
+      <input type="submit" style={{ display: 'none' }} value="Post" />
       </form>
     );
   }
