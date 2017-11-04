@@ -1,0 +1,7 @@
+.messages-container {
+  background: #f5f3f2;
+  height: 75%;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
