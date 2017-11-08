@@ -1,3 +1,6 @@
+canvas {
+  position: absolute; }
+
 .app-container {
   position: relative;
   top: 48px;

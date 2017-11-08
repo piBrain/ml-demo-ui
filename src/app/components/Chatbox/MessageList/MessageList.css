@@ -1,6 +1,6 @@
 .messages-container {
-  background: rgba(242, 242, 245, 0.11);
   position: relative;
+  background: white;
   height: 75%;
   overflow: hidden;
   border: 3px solid #d8d6e2;

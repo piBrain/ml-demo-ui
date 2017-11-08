@@ -60,6 +60,34 @@ export default class Home extends Component {
     return (
       <div>
         <div className='app-container'>
+          <Particles className="particle-canvas" width={'100%'} height={'125vh'} params={{
+            particles: {
+              number: {
+                value: 220,
+                enable: true,
+                value_area:1000
+              },
+              color: {
+                value: '#000000'
+              },
+              opacity: {
+                  value: 1
+              },
+              shape: {
+                polygon: {
+                  nb_sides: 12
+                }
+              },
+              line_linked: {
+                enable: true,
+                color: "#000000",
+              },
+              move: {
+                enable: true,
+                speed: 1.3
+              }
+            }
+          }} />
           <div className={this.props.sidebar_active ? 'aura-container pushed' : 'aura-container' }>
             <Chatbox data={data} />
           </div>
