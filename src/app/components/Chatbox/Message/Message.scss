@@ -1,15 +1,62 @@
+.message-container:before, .message-container:after {
+  content:"";
+  position:absolute;
+  z-index:-1;
+  box-shadow:0 0 20px rgba(0,0,0,0.2);
+  top:0;
+  bottom:0;
+  left:10px;
+  right:10px;
+  border-radius:100px / 10px;
+}
+
+.message-container:after {
+  right:10px;
+  left:auto;
+  transform:skew(8deg) rotate(3deg);
+}
+
+
+
 .message-container {
   font: 12px 'PT Mono', monospace;
-  background:#c6ceb9;
   &.aura {
     background: #98c5ec;
   }
-  width: 25%;
-  margin: 15px 15px;
-  border-radius: 5px;
-  border: 1px solid #fff8f8;
-  box-shadow: -2px -1px 4px 0px #9fa4b1;
+  width: 80%;
+  margin: 20px;
   position: relative;
-  .author {}
-  .message {}
+  float:left;
+  border: 1px solid #ccc;
+  box-shadow:0 1px 4px rgba(0, 0, 0, 0.2), 0 0 4px rgba(0, 0, 0, 0.1) inset;
+
+  .profile-img-c {
+    margin: 12px;
+    float:left;
+    width: 40px;
+    height: 40px;
+    background: #ccc222;
+  }
+
+  .top-c {
+    float:left;
+    width: 100%;
+    overflow:hidden;
+
+    p, h2 { float:left; }
+  }
+
+  .timestamp {
+    margin: 20px 14px;
+    float: left;
+    font-size: 10px;
+  }
+  .author {
+  }
+
+  .detail-c {
+    float:left;
+    display:inline-block;
+
+  }
 }
