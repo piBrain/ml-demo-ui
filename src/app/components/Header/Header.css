@@ -23,10 +23,10 @@ a {
     cursor: pointer;
     background: transparent; }
     .header .logo p {
-      font: 36px 'PX Grotesk';
+      font: 36px 'Bungee Hairline';
       float: left;
       padding: 0;
-      margin: 0 14px;
+      margin: 8px;
       letter-spacing: 0.28px; }
     .header .logo .logo-c {
       width: 56px;

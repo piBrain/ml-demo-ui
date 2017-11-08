@@ -63,7 +63,7 @@ export default class Home extends Component {
           <Particles className="particle-canvas" width={'100%'} height={'125vh'} params={{
             particles: {
               number: {
-                value: 220,
+                value: 300,
                 enable: true,
                 value_area:1000
               },
