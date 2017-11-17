@@ -2,7 +2,7 @@ import { formReducer, modelReducer } from 'react-redux-form';
 import { DISPLAY_RESPONSE_MESSAGE, SENT_MESSAGE } from '../actions.js'
 
 const initialState= {
-  request: "",
+  message: "",
   author: "Ian Butler" //hardcoded for demo purposes
 }
 

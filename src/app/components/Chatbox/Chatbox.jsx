@@ -20,7 +20,7 @@ export default class Chatbox extends Component {
   }
 
   async handleMessageSubmit( chatbox, values ) {
-    console.log(this.props)
+    console.log(values)
    this.props.setPending('chatbox', true);
    try {
       const params = { ...values, url: `${window.location.href.match(/^.*\//)[0]}predict` }

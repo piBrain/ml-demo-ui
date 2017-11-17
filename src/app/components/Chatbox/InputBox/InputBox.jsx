@@ -9,7 +9,7 @@ export default class InputBox extends Component {
     super(props);
     this.state={
       author:'',
-      request:''
+      message:''
     };
     this.handleAuthorChange=this.handleAuthorChange.bind(this);
     this.handleTextChange=this.handleTextChange.bind(this);
@@ -27,22 +27,22 @@ export default class InputBox extends Component {
       text: e.target.value
     });
   }
-  handleSubmit(e){
+  handleSubmit(e) {
+    console.log(e);
     e.preventDefault();
     var author = this.state.author.trim();
     var text = this.state.text.trim();
     // if(!text || !author ){
     //     return;
     // }
-    this.props.handleMessageSubmit({author:author,text:text});
-    this.setState({author: '',text:''});
+    this.props.handleMessageSubmit({author:author,message:text});
   }
   render(props) {
     let chatbox = this.props;
     return (
-      <Form model="chatbox" className="inputbox-form" onSubmit={(values) => this.props.handleMessageSubmit(chatbox, values)} >
+      <Form model="chatbox" className="inputbox-form" onSubmit={this.handleSubmit} >
       <span> <div/> </span>
-      <input type="text" placeholder="type to talk to aura!!?" />
+      <input type="text" value={this.props.message} placeholder="type to talk to aura!!?" />
       <input type="submit" style={{ display: 'none' }} value="Post" />
       </Form>
     );
