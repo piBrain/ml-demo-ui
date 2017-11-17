@@ -6,8 +6,12 @@ import Timestamp from 'react-timestamp';
 
 export default class Message extends Component {
   render(props) {
+    let className = 'message-container'
+    if(this.props.author == 'Aura') {
+      className = 'aura-message-container'
+    }
     return (
-      <div className="message-container">
+      <div className={className}>
         <div className="profile-img-c">
           <div className="profile-img" ></div>
         </div>
