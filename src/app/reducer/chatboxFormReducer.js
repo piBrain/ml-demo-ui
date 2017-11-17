@@ -1,5 +1,5 @@
 import { formReducer, modelReducer } from 'react-redux-form';
-import { DISPLAY_RESPONSE_MESSAGE, UPDATE_MESSAGE } from '../actions.js'
+import { DISPLAY_RESPONSE_MESSAGE, ADD_MESSAGE_TO_LIST } from '../actions.js'
 
 const initialState= {
   message: "",
@@ -8,7 +8,8 @@ const initialState= {
 
 const componentInitialState = {
   displayResponseMessage: null,
-  setPending: false
+  setPending: false,
+  messageList: []
 }
 
 const sendRequest = (action, state) => {
@@ -17,7 +18,12 @@ const sendRequest = (action, state) => {
     sendRequest: action.res.response,
   }
 }
-
+const addMessageToList = (action,  state) => {
+  return {
+    ...state,
+    messageList: [ ...state.messageList, action.msg ]
+  }
+}
 const displayResponseMessage = (action, state) => {
   return {
     ...state,
@@ -25,20 +31,10 @@ const displayResponseMessage = (action, state) => {
   }
 }
 
-const updateMessage = (action, state) => {
-  if ( action.type == "UPDATE_MESSAGE") {
-    console.log(state);
-    return {
-      ...state,
-      message: action.message,
-    }
-  }
-}
-
 export const chatboxStateReducer = (state=componentInitialState, action) => {
   const actions = {
     DISPLAY_RESPONSE_MESSAGE: displayResponseMessage,
-    UPDATE_MESSAGE: updateMessage
+    ADD_MESSAGE_TO_LIST: addMessageToList
   }
   if(typeof actions[action.type] === 'undefined') { return state }
   return actions[action.type](action, state)

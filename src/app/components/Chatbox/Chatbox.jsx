@@ -13,20 +13,21 @@ export default class Chatbox extends Component {
       data: [{message:[]}],
     }
 
-    this.handleTextChange = this.handleTextChange.bind(this);
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
   }
-  componentDidMount() {
-    //setInterval(()=>{this.setState({ data: this.props.data});},2000);
-  }
 
-  async handleMessageSubmit( chatbox, values ) {
-    console.log(values)
+  async handleMessageSubmit( values ) {
    this.props.setPending('chatbox', true);
    try {
-      const params = { ...values, url: `${window.location.href.match(/^.*\//)[0]}predict` }
-      const res = await this.props.chatboxSendRequest(params)
-      this.props.displayResponseMessage(res.data.chatboxSendRequest)
+     this.props.clearForm('chatbox')
+     this.props.addMessageToList(values)
+     const res = await this.props.chatboxSendRequest(values)
+     console.log(res)
+     if(res.data.sendRequest.err) {
+       this.props.addMessageToList({author:'Aura', message:"I'm sorry, something seems to have gone wrong on my end."})
+     } else {
+       this.props.addMessageToList({author: 'Aura', message: res.data.sendRequest.data})
+     }
     } catch(e) {
       console.error(e)
       this.props.setSubmitFailed('chatbox')
@@ -34,19 +35,12 @@ export default class Chatbox extends Component {
    }
   }
 
-  handleTextChange(e){
-    console.log("handleTextChange event triggered");
-    this.props.updateMessage({
-      message: e.target.value
-    });
-  }
-
   render(props) {
-    let chatbox = this.props;
+    console.log(this.props)
     return (
       <div id="chatbox" className={"chatbox-container"}>
-        <MessageList data={this.state.data}/>
-        <InputBox handleTextChange={this.handleTextChange} handleMessageSubmit={this.handleMessageSubmit}/>
+        <MessageList data={this.props.messageList}/>
+        <InputBox handleMessageSubmit={this.handleMessageSubmit}/>
       </div>
     );
   }

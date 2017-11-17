@@ -7,12 +7,12 @@ import gql from 'graphql-tag'
 
 import Chatbox from './Chatbox.jsx'
 
-import { displayResponseMessage, updateMessage } from '../../actions.js'
+import { addMessageToList, displayResponseMessage } from '../../actions.js'
 
 const sendRequest = gql`
-  mutation($request: String!, $author: String!) {
+  mutation($message: String!, $author: String!) {
     sendRequest(
-      message: $request,
+      message: $message,
       author: $author
     )
   }
@@ -20,10 +20,10 @@ const sendRequest = gql`
 const chatboxSendRequest = graphql(sendRequest, {
   name: 'chatboxSendRequest',
   props: ({ chatboxSendRequest }) => ({
-    chatboxSendRequest: ( { request, author } ) => {
+    chatboxSendRequest: ( { message, author } ) => {
       return chatboxSendRequest ({
         variables: {
-          request,
+          message,
           author,
         },
       })
@@ -31,16 +31,20 @@ const chatboxSendRequest = graphql(sendRequest, {
   }),
 })
 
-const mapStateToProps = (state) => ({ responseMessage: state.chatboxState.displayResponseMessage })
-
+const mapStateToProps = (state) => ({
+  messageList: state.chatboxState.messageList,
+  author: state.chatboxForm.author.value,
+  responseMessage: state.chatboxState.displayResponseMessage,
+})
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
     {
       setPending: actions.setPending,
       setSubmitFailed: actions.setSubmitFailed,
+      clearForm: actions.reset,
+      addMessageToList,
       displayResponseMessage,
-      updateMessage
     },
     dispatch
   )

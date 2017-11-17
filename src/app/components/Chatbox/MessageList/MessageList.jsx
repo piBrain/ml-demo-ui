@@ -7,7 +7,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 export default class MessageList extends Component {
   render(props) {
     var messages = this.props.data.map((message, index)=>{
-      return ( <Message key={index} author={message.author}>{message.text}</Message>);
+      return ( <Message key={index} author={message.author}>{message.message}</Message>);
     })
 
     return (
