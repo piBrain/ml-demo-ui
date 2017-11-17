@@ -12,7 +12,7 @@ import { displayResponseMessage } from '../../actions.js'
 const sendRequest = gql`
   mutation($request: String!, $author: String!) {
     sendRequest(
-      request: $request,
+      message: $request,
       author: $author
     )
   }

@@ -38,10 +38,9 @@ export default class Chatbox extends Component {
     let chatbox = this.props;
     return (
       <div id="chatbox" className={"chatbox-container"}>
-        <MessageList data={this.props.responseMessage}/>
+        <MessageList data={this.state.data}/>
         <InputBox handleMessageSubmit={this.handleMessageSubmit}/>
       </div>
     );
   }
 }
-
