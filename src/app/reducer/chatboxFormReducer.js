@@ -29,7 +29,6 @@ const displayResponseMessage = (action, state) => {
 export const chatboxStateReducer = (state=componentInitialState, action) => {
   const actions = {
     DISPLAY_RESPONSE_MESSAGE: displayResponseMessage,
-    SENT_MESSAGE: sentMessage
   }
   if(typeof actions[action.type] === 'undefined') { return state }
   return actions[action.type](action)
