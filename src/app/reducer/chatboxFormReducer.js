@@ -11,12 +11,6 @@ const componentInitialState = {
   setPending: false
 }
 
-const sentMessage = (action, state) => {
-  return {
-    ...state,
-    sentMessage: action.message.response,
-  }
-}
 
 const sendRequest = (action, state) => {
   return {

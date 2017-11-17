@@ -37,7 +37,6 @@ const mapStateToProps = (state) => ({ responseMessage: state.chatboxState.displa
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
     {
-      sentMessage: actions.sentMessage,
       setPending: actions.setPending,
       setSubmitFailed: actions.setSubmitFailed,
       displayResponseMessage
