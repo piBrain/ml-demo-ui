@@ -34,11 +34,11 @@ export default class Chatbox extends Component {
    }
   }
 
-    render(props) {
+  render(props) {
     let chatbox = this.props;
     return (
       <div id="chatbox" className={"chatbox-container"}>
-        <MessageList data={this.state.data}/>
+        <MessageList data={this.props.responseMessage}/>
         <InputBox handleMessageSubmit={this.handleMessageSubmit}/>
       </div>
     );
