@@ -7,7 +7,7 @@ import {
 import {
   combineForms,
 } from 'react-redux-form';
-import { newsletterFormReducer, newsletterModelReducer, newsletterStateReducer } from './reducer/newsletterFormReducer'
+import { chatboxFormReducer, chatboxModelReducer, chatboxStateReducer } from './reducer/chatboxFormReducer.js'
 import thunk from 'redux-thunk';
 import ApolloClient, { createNetworkInterface } from 'apollo-client'
 import getConfigs from '../../config'
@@ -18,9 +18,9 @@ const apolloClient = new ApolloClient({
 })
 
 const combinedReducers = combineReducers({
-  newsletterForm: newsletterFormReducer,
-  newsletter: newsletterModelReducer,
-  newsletterState: newsletterStateReducer,
+  chatboxForm: chatboxFormReducer,
+  chatbox: chatboxModelReducer,
+  chatboxState: chatboxStateReducer,
   apollo: apolloClient.reducer(),
 })
 

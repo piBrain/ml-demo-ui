@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Chatbox from '../../components/Chatbox/Chatbox.jsx';
+import ConnectedChatbox from '../../components/Chatbox/ConnectedChatbox.jsx';
 import './Home.css';
 import Particles from 'react-particles-js';
 
@@ -89,7 +89,7 @@ export default class Home extends Component {
             }
           }} />
           <div className={this.props.sidebar_active ? 'aura-container pushed' : 'aura-container' }>
-            <Chatbox data={data} />
+            <ConnectedChatbox data={data} />
           </div>
         </div>
       </div>

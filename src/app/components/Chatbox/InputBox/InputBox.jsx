@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import './InputBox.css';
+import { Errors, Field, Form, Control, actions } from 'react-redux-form';
 import ReactCSSTransitionReplace from 'react-css-transition-replace';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
@@ -8,7 +9,7 @@ export default class InputBox extends Component {
     super(props);
     this.state={
       author:'',
-      text:''
+      request:''
     };
     this.handleAuthorChange=this.handleAuthorChange.bind(this);
     this.handleTextChange=this.handleTextChange.bind(this);
@@ -36,13 +37,14 @@ export default class InputBox extends Component {
     this.props.handleMessageSubmit({author:author,text:text});
     this.setState({author: '',text:''});
   }
-  render() {
+  render(props) {
+    let chatbox = this.props;
     return (
-      <form className="inputbox-form" onSubmit={this.handleSubmit} >
+      <Form model="chatbox" className="inputbox-form" onSubmit={(values) => this.props.handleMessageSubmit(chatbox, values)} >
       <span> <div/> </span>
-      <input type="text" placeholder="type to talk to aura!!?" value={this.state.text} onChange={this.handleTextChange} />
+      <input type="text" placeholder="type to talk to aura!!?" />
       <input type="submit" style={{ display: 'none' }} value="Post" />
-      </form>
+      </Form>
     );
   }
 }
