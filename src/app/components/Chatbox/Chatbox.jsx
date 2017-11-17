@@ -25,7 +25,6 @@ export default class Chatbox extends Component {
    try {
       const params = { ...values, url: `${window.location.href.match(/^.*\//)[0]}predict` }
       const res = await this.props.chatboxSendRequest(params)
-      this.props.sentMessage('chatbox', true)
       this.props.displayResponseMessage(res.data.chatboxSendRequest)
     } catch(e) {
       console.error(e)
