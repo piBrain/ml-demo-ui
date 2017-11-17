@@ -11,20 +11,12 @@ export default class InputBox extends Component {
       author:'',
       message:''
     };
-    this.handleAuthorChange=this.handleAuthorChange.bind(this);
-    this.handleTextChange=this.handleTextChange.bind(this);
     this.handleSubmit=this.handleSubmit.bind(this);
   }
   handleAuthorChange(e){
     console.log("handleAuthorChange event triggered");
     this.setState({
       author: e.target.value
-    });
-  }
-  handleTextChange(e){
-    console.log("handleTextChange event triggered");
-    this.setState({
-      text: e.target.value
     });
   }
   handleSubmit(e) {
@@ -42,7 +34,7 @@ export default class InputBox extends Component {
     return (
       <Form model="chatbox" className="inputbox-form" onSubmit={this.handleSubmit} >
       <span> <div/> </span>
-      <input type="text" value={this.props.message} placeholder="type to talk to aura!!?" />
+      <input type="text" value={this.props.message} onChange={this.props.handleTextChange} placeholder="type to talk to aura!!?" />
       <input type="submit" style={{ display: 'none' }} value="Post" />
       </Form>
     );

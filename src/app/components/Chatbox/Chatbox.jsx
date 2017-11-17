@@ -13,6 +13,7 @@ export default class Chatbox extends Component {
       data: [{message:[]}],
     }
 
+    this.handleTextChange = this.handleTextChange.bind(this);
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
   }
   componentDidMount() {
@@ -33,12 +34,19 @@ export default class Chatbox extends Component {
    }
   }
 
+  handleTextChange(e){
+    console.log("handleTextChange event triggered");
+    this.props.updateMessage({
+      message: e.target.value
+    });
+  }
+
   render(props) {
     let chatbox = this.props;
     return (
       <div id="chatbox" className={"chatbox-container"}>
         <MessageList data={this.state.data}/>
-        <InputBox handleMessageSubmit={this.handleMessageSubmit}/>
+        <InputBox handleTextChange={this.handleTextChange} handleMessageSubmit={this.handleMessageSubmit}/>
       </div>
     );
   }

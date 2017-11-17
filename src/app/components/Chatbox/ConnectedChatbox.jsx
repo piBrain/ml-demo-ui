@@ -7,7 +7,7 @@ import gql from 'graphql-tag'
 
 import Chatbox from './Chatbox.jsx'
 
-import { displayResponseMessage } from '../../actions.js'
+import { displayResponseMessage, updateMessage } from '../../actions.js'
 
 const sendRequest = gql`
   mutation($request: String!, $author: String!) {
@@ -39,7 +39,8 @@ const mapDispatchToProps = (dispatch) => {
     {
       setPending: actions.setPending,
       setSubmitFailed: actions.setSubmitFailed,
-      displayResponseMessage
+      displayResponseMessage,
+      updateMessage
     },
     dispatch
   )
