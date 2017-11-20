@@ -16,7 +16,7 @@
 
 .message-container {
   font: 12px 'PT Mono', monospace;
-  width: 40%;
+  width: 80%;
   margin: 20px;
   background: white;
   position: relative;
@@ -25,38 +25,6 @@
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2), 0 0 4px rgba(0, 0, 0, 0.1) inset; }
   .message-container.aura {
     background: #98c5ec; }
-  .message-container .profile-img-c {
-    margin: 12px;
-    float: left;
-    width: 40px;
-    height: 40px;
-    background: #ccc222; }
-  .message-container .top-c {
-    float: left;
-    width: 100%;
-    overflow: hidden; }
-    .message-container .top-c p, .message-container .top-c h2 {
-      float: left; }
-  .message-container .timestamp {
-    margin: 20px 14px;
-    float: left;
-    font-size: 10px; }
-  .message-container .detail-c {
-    float: left;
-    display: inline-block; }
-
-
-.aura-message-container {
-  font: 12px 'PT Mono', monospace;
-  width: 40%;
-  margin: 20px;
-  background: #98c5ec;
-  position: relative;
-  float: right;
-  border: 1px solid #ccc;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2), 0 0 4px rgba(0, 0, 0, 0.1) inset; }
-  .message-container.aura {
-    background:  }
   .message-container .profile-img-c {
     margin: 12px;
     float: left;

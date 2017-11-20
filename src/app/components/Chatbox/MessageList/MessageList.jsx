@@ -12,10 +12,11 @@ export default class MessageList extends Component {
 
     return (
       <div className={"messages-container"}>
-        {messages}
+        <ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
+          {messages}
+        </ReactCSSTransitionGroup>
       </div>
     );
   }
 }
-
 
