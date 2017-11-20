@@ -1,5 +1,8 @@
 #chatbox {
   background: transparent;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: scroll;
   margin: 50px;
+  width: 60%;
+  margin-left: 20%;
 }

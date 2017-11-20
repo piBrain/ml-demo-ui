@@ -22,11 +22,10 @@ export default class Chatbox extends Component {
      this.props.clearForm('chatbox')
      this.props.addMessageToList(values)
      const res = await this.props.chatboxSendRequest(values)
-     console.log(res)
      if(res.data.sendRequest.err) {
-       this.props.addMessageToList({author:'Aura', message:"I'm sorry, something seems to have gone wrong on my end."})
+       this.props.addPendingMessage({author:'Aura', message:"I'm sorry, something seems to have gone wrong on my end.", show: false})
      } else {
-       this.props.addMessageToList({author: 'Aura', message: res.data.sendRequest.data})
+       this.props.addPendingMessage({author: 'Aura', message: res.data.sendRequest.data, show: false})
      }
     } catch(e) {
       console.error(e)
@@ -35,8 +34,17 @@ export default class Chatbox extends Component {
    }
   }
 
+  componentDidUpdate(prevProps) {
+    const doShow = prevProps.messageList.some((msg) => !msg.show )
+    if(doShow) {
+      prevProps.showHiddenMessages()
+    }
+    if(prevProps.pendingMessages.length > 0) {
+      prevProps.clearPendingMessages()
+    }
+  }
+
   render(props) {
-    console.log(this.props)
     return (
       <div id="chatbox" className={"chatbox-container"}>
         <MessageList data={this.props.messageList}/>

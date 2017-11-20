@@ -1,4 +1,7 @@
 #chatbox {
   background: transparent;
-  overflow: hidden;
-  margin: 50px; }
+  overflow-x: hidden;
+  overflow-y: scroll;
+  margin: 50px;
+  width: 60%;
+  margin-left: 20%; }

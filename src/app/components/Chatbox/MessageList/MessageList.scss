@@ -1,11 +1,26 @@
-.messages-container {
-    position: relative;
-    background:white;
-    height: 75%;
+.discussion {
+  list-style: none;
+  background: #e5e5e5;
+  margin: 0;
+  padding: 0 0 50px 0; // finality
+  font: 12px 'PT Mono', monospace;
+  height: 60%;
+  overflow-y: scroll;
+  li {
+    padding: 0.5rem;
     overflow: hidden;
-    border: 3px solid #d8d6e2;
-    margin: 0 auto;
-    width: 90%;
+    display: flex;
+  }
+  .top-c {
+    // could set height, but gonna bottom-align instead
+    position: relative; // for triangle
+    width: 40px;
+    img {
+      display: block; // triangle position
+      width: 100%;
+      margin: 0 0 0 0;
+    }
+  }
 }
 
 .fade-enter {

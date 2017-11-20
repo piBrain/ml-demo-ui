@@ -11,7 +11,8 @@ export default class InputBox extends Component {
   }
 
   handleSubmit(val) {
-    this.props.handleMessageSubmit(val);
+    const message = { ...val, show: false }
+    this.props.handleMessageSubmit(message);
   }
   render(props) {
     return (
