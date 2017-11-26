@@ -8,7 +8,7 @@ import gql from 'graphql-tag'
 import Chatbox from './Chatbox.jsx'
 
 import {
-  addMessageToList, displayResponseMessage, showHiddenMessages,
+  addMessageToList, displayResponseMessage,
   addPendingMessage, clearPendingMessages
 } from '../../actions.js'
 
@@ -34,27 +34,27 @@ const chatboxSendRequest = graphql(sendRequest, {
   }),
 })
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => {
+  return {
+  activeTeam: state.session.activeTeam,
   messageList: state.chatboxState.messageList,
   pendingMessages: state.chatboxState.pendingMessages,
-  author: state.chatboxForm.author.value,
+  author: state.forms.chatbox.author,
   responseMessage: state.chatboxState.displayResponseMessage,
-})
+  loggedIn: state.session.loggedIn
+}}
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators(
-    {
+  return bindActionCreators({
       setPending: actions.setPending,
       setSubmitFailed: actions.setSubmitFailed,
       clearForm: actions.reset,
       addMessageToList,
       displayResponseMessage,
-      showHiddenMessages,
       addPendingMessage,
       clearPendingMessages
     },
-    dispatch
-  )
+    dispatch)
 }
 
 export default compose(

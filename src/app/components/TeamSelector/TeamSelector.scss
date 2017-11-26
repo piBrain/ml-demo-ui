@@ -1,0 +1,27 @@
+.teams {
+  list-style: none;
+  background: #e5e5e5;
+  margin: 0;
+  padding: 1 2 1 0;
+  font: 12px 'PT Mono', monospace;
+  height: auto;
+  overflow-y: scroll;
+  display: none;
+  li {
+    overflow: hidden;
+    display: flex;
+  }
+  &.active {
+    display: block;
+  }
+  .top-c {
+    // could set height, but gonna bottom-align instead
+    position: relative; // for triangle
+    width: 80px;
+    img {
+      display: block; // triangle position
+      width: 100%;
+      margin: 0 0 0 0;
+    }
+  }
+}

@@ -1,0 +1,21 @@
+.teams {
+  list-style: none;
+  background: #e5e5e5;
+  margin: 0;
+  padding: 1 2 1 0;
+  font: 12px 'PT Mono', monospace;
+  height: auto;
+  overflow-y: scroll;
+  display: none; }
+  .teams li {
+    overflow: hidden;
+    display: flex; }
+  .teams.active {
+    display: block; }
+  .teams .top-c {
+    position: relative;
+    width: 80px; }
+    .teams .top-c img {
+      display: block;
+      width: 100%;
+      margin: 0 0 0 0; }

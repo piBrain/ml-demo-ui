@@ -9,23 +9,20 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 export default class Chatbox extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      data: [{message:[]}],
-    }
-
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
   }
 
   async handleMessageSubmit( values ) {
-   this.props.setPending('chatbox', true);
+   this.props.setPending('forms.chatbox', true);
    try {
-     this.props.clearForm('chatbox')
-     this.props.addMessageToList(values)
-     const res = await this.props.chatboxSendRequest(values)
+     const userMessage = { ...values, team: this.props.activeTeam.name }
+     this.props.clearForm('forms.chatbox')
+     this.props.addMessageToList(userMessage)
+     const res = await this.props.chatboxSendRequest(userMessage)
      if(res.data.sendRequest.err) {
-       this.props.addPendingMessage({author:'Aura', message:"I'm sorry, something seems to have gone wrong on my end.", show: false})
+       this.props.addPendingMessage({author:'Aura', message:"I'm sorry, something seems to have gone wrong on my end.", team: this.props.activeTeam.name})
      } else {
-       this.props.addPendingMessage({author: 'Aura', message: res.data.sendRequest.data, show: false})
+       this.props.addPendingMessage({author: 'Aura', message: res.data.sendRequest.data, team: this.props.activeTeam.name})
      }
     } catch(e) {
       console.error(e)
@@ -33,21 +30,18 @@ export default class Chatbox extends Component {
       this.props.displaySubmitError({err: true, response: 'Whoops! Something went wrong.'})
    }
   }
-
-  componentDidUpdate(prevProps) {
-    const doShow = prevProps.messageList.some((msg) => !msg.show )
-    if(doShow) {
-      prevProps.showHiddenMessages()
-    }
-    if(prevProps.pendingMessages.length > 0) {
-      prevProps.clearPendingMessages()
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.pendingMessages.length > 0) {
+      nextProps.clearPendingMessages()
     }
   }
 
   render(props) {
+    const messages = this.props.messageList.filter((msg) => msg.team === this.props.activeTeam.name)
+    console.log(messages)
     return (
-      <div id="chatbox" className={"chatbox-container"}>
-        <MessageList data={this.props.messageList}/>
+      <div id="chatbox" className={this.props.loggedIn ?  "chatbox-container active" : "chatbox-container"}>
+        <MessageList data={messages}/>
         <InputBox handleMessageSubmit={this.handleMessageSubmit}/>
       </div>
     );

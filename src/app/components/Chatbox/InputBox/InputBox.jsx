@@ -11,15 +11,14 @@ export default class InputBox extends Component {
   }
 
   handleSubmit(val) {
-    const message = { ...val, show: false }
+    const message = { ...val  }
     this.props.handleMessageSubmit(message);
   }
   render(props) {
     return (
-      <Form model="chatbox" className="inputbox-form" onSubmit={this.handleSubmit} >
-      <span> <div/> </span>
-      <Control.text model='.message' />
-      <input type="submit" style={{ display: 'none' }} value="Post" />
+      <Form model="forms.chatbox" className="inputbox-form" onSubmit={this.handleSubmit} >
+        <span> <div/> </span>
+        <Control.text model='.message' />
       </Form>
     );
   }

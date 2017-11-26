@@ -30,10 +30,3 @@ export default class App extends Component {
     );
   }
 }
-
-//<Header sidebar_active={this.state.sidebar_active} toggleSidebar={this.toggleSidebar} />
-//<div className='app-container'>
-//<SidebarMenu handleLogin={this.handleLogin} active={this.state.sidebar_active} />
-//<div className={this.state.sidebar_active ? 'aura-container pushed' : 'aura-container' }><p>Welcome to Aura</p></div>
-      //todo
-//</div>

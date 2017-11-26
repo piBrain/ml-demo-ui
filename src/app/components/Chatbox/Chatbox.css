@@ -2,6 +2,10 @@
   background: transparent;
   overflow-x: hidden;
   overflow-y: scroll;
-  margin: 50px;
-  width: 60%;
-  margin-left: 20%; }
+  width: 77.5%;
+  transform: translateX(22.5vw); }
+
+.chatbox-container {
+  display: none; }
+  .chatbox-container.active {
+    display: block; }

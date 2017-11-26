@@ -1,13 +1,8 @@
-import { formReducer, modelReducer } from 'react-redux-form';
 import {
-  DISPLAY_RESPONSE_MESSAGE, ADD_MESSAGE_TO_LIST, SHOW_HIDDEN_MESSAGES,
+  DISPLAY_RESPONSE_MESSAGE, ADD_MESSAGE_TO_LIST,
   CLEAR_PENDING_MESSAGES, ADD_PENDING_MESSAGE
 } from '../actions.js'
 
-const initialState= {
-  message: "",
-  author: "Ian Butler" //hardcoded for demo purposes
-}
 
 const componentInitialState = {
   displayResponseMessage: null,
@@ -45,15 +40,6 @@ const clearPendingMessages = (_, state) => {
   return newState
 }
 
-const showHiddenMessages = (_, state) => {
-  return {
-    ...state,
-    messageList: [ ...state.messageList ].map((msg) => {
-        msg['show'] = true
-        return msg
-    })
-  }
-}
 const displayResponseMessage = (action, state) => {
   return {
     ...state,
@@ -65,12 +51,9 @@ export const chatboxStateReducer = (state=componentInitialState, action) => {
   const actions = {
     DISPLAY_RESPONSE_MESSAGE: displayResponseMessage,
     ADD_MESSAGE_TO_LIST: addMessageToList,
-    SHOW_HIDDEN_MESSAGES: showHiddenMessages,
     CLEAR_PENDING_MESSAGES: clearPendingMessages,
     ADD_PENDING_MESSAGE: addPendingMessage
   }
   if(typeof actions[action.type] === 'undefined') { return state }
   return actions[action.type](action, state)
 }
-export const chatboxFormReducer = formReducer('chatbox', initialState)
-export const chatboxModelReducer = modelReducer('chatbox', initialState)

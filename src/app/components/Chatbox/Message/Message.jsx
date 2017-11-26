@@ -6,12 +6,9 @@ import Timestamp from 'react-timestamp';
 
 export default class Message extends Component {
   render(props) {
-    let className = 'self'
+    let className = 'other'
     if(this.props.author == 'Aura') {
-      className = 'other'
-    }
-    if(this.props.show) {
-      className = className + ' ' + 'show'
+      className = 'self'
     }
     const firstLetter = this.props.author[0].toUpperCase()
     return (

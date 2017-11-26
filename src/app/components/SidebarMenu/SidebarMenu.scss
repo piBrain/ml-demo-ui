@@ -1,0 +1,52 @@
+$new-blue: #98c5ec;
+
+.side-container {
+  position: absolute;
+  overflow:hidden;
+  min-width: 440px;
+  left: 25%;
+  background: white;
+  z-index: 90;
+  width: 45vw;
+  height: 45vh;
+  -webkit-box-shadow: 5px -5px 39px -14px rgba(0,0,0,1);
+  -moz-box-shadow: 5px -5px 39px -14px rgba(0,0,0,1);
+  box-shadow: 5px -5px 39px -14px rgba(0,0,0,1);
+  transition: width 600ms, height 400ms, top 400ms;
+  top: 20%;
+  transition-timing-function: cubic-bezier(.56,.97,.94,.99);
+
+  &.register {
+    height: 65vh;
+    top: 15%;
+  }
+  &.active {
+    width: 20vw;
+    height: 100vh;
+    top: -4%;
+    left: 0%;
+  }
+
+  .footer-links {
+    text-align: center;
+    font: 12px 'PT Mono', monpspace;
+    position: relative;
+    top: 3.9%;
+
+    &.adjust {
+      top: 45%;
+    }
+
+    span {
+      cursor:pointer;
+    }
+  }
+}
+.header-fade-appear {
+   opacity: 0.01;
+}
+
+.header-fade-appear.header-fade-appear-active {
+   opacity: 1;
+   transition: opacity 500ms ease-in;
+}
