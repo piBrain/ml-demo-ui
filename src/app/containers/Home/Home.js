@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ConnectedChatbox from '../../components/Chatbox/ConnectedChatbox.jsx';
+import ConnectedSidebarMenu from '../../components/SidebarMenu/ConnectedSidebarMenu.jsx'
 import './Home.css';
 import Particles from 'react-particles-js';
 
@@ -34,62 +35,15 @@ export default class Home extends Component {
       isMobile: isMobile.any()
     };
 
-    this.handleLogin = this.handleLogin.bind(this);
-  }
-
-  handleLogin () {
-    //manages the state of login validation from the server should go here
-    this.setState( { loggedIn: true } );
   }
 
   render(props) {
-
-    var data =  [
-      {
-        author: 'Aura',
-        id: 1,
-        text: "hello"
-      },
-      {
-        author: 'user',
-        id: 2,
-        text: "no"
-      }
-    ];
-
     return (
       <div>
         <div className='app-container'>
-          <Particles className="particle-canvas" width={'100%'} height={'125vh'} params={{
-            particles: {
-              number: {
-                value: 300,
-                enable: true,
-                value_area:1000
-              },
-              color: {
-                value: '#000000'
-              },
-              opacity: {
-                  value: 1
-              },
-              shape: {
-                polygon: {
-                  nb_sides: 12
-                }
-              },
-              line_linked: {
-                enable: true,
-                color: "#000000",
-              },
-              move: {
-                enable: true,
-                speed: 1.3
-              }
-            }
-          }} />
           <div className={this.props.sidebar_active ? 'aura-container pushed' : 'aura-container' }>
-            <ConnectedChatbox data={data} />
+            <ConnectedChatbox />
+            <ConnectedSidebarMenu />
           </div>
         </div>
       </div>

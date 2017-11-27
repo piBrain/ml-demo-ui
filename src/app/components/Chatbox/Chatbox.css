@@ -1,4 +1,11 @@
 #chatbox {
   background: transparent;
-  overflow: hidden;
-  margin: 50px; }
+  overflow-x: hidden;
+  overflow-y: scroll;
+  width: 77.5%;
+  transform: translateX(22.5vw); }
+
+.chatbox-container {
+  display: none; }
+  .chatbox-container.active {
+    display: block; }

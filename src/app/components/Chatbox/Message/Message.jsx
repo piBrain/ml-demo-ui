@@ -6,24 +6,23 @@ import Timestamp from 'react-timestamp';
 
 export default class Message extends Component {
   render(props) {
-    let className = 'message-container'
+    let className = 'other'
     if(this.props.author == 'Aura') {
-      className = 'aura-message-container'
+      className = 'self'
     }
+    const firstLetter = this.props.author[0].toUpperCase()
     return (
-      <div className={className}>
-        <div className="profile-img-c">
-          <div className="profile-img" ></div>
-        </div>
-        <div className="detail-c">
+      <li className={className}>
           <div className="top-c">
-            <h2 className="author">{this.props.author}</h2>
-            <p className="timestamp"><Timestamp time={this.created_at} format='time' /></p>
+            <div className="avatar">
+              <img src={require(`../../../../assets/material-letters/${firstLetter}.svg`)} alt={firstLetter} />
+            </div>
           </div>
-            <p className="title">{this.props.role}</p>
-          <p className="message">:      {this.props.children}</p>
-        </div>
-      </div>
+          <div className="messages">
+            <p className="message">{this.props.children}</p>
+            <p className="timestamp">{this.props.author} <Timestamp time={this.created_at} format='time' /></p>
+          </div>
+      </li>
 
     );
   }

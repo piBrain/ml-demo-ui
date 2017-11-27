@@ -7,7 +7,10 @@ import gql from 'graphql-tag'
 
 import Chatbox from './Chatbox.jsx'
 
-import { addMessageToList, displayResponseMessage } from '../../actions.js'
+import {
+  addMessageToList, displayResponseMessage,
+  addPendingMessage, clearPendingMessages
+} from '../../actions.js'
 
 const sendRequest = gql`
   mutation($message: String!, $author: String!) {
@@ -31,23 +34,27 @@ const chatboxSendRequest = graphql(sendRequest, {
   }),
 })
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => {
+  return {
+  activeTeam: state.session.activeTeam,
   messageList: state.chatboxState.messageList,
-  author: state.chatboxForm.author.value,
+  pendingMessages: state.chatboxState.pendingMessages,
+  author: state.forms.chatbox.author,
   responseMessage: state.chatboxState.displayResponseMessage,
-})
+  loggedIn: state.session.loggedIn
+}}
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators(
-    {
+  return bindActionCreators({
       setPending: actions.setPending,
       setSubmitFailed: actions.setSubmitFailed,
       clearForm: actions.reset,
       addMessageToList,
       displayResponseMessage,
+      addPendingMessage,
+      clearPendingMessages
     },
-    dispatch
-  )
+    dispatch)
 }
 
 export default compose(
