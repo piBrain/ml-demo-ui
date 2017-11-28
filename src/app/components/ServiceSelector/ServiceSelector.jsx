@@ -16,11 +16,11 @@ export default class ServiceSelector extends React.Component {
       }
       return arr[0]
     }
-    this.props.setActiveTeam(findTeam(this.props.data, val))
+    this.props.setActiveTeam(findService(this.props.data, val))
   }
   render(props) {
     var services = this.props.data.map((team, index) => {
-      return ( <Service key={index} name={service.name} logo={service.logo} handleClick={this.handleClick}/> );
+      return ( <Service key={index} name={team.name} logo={team.logo} handleClick={this.handleClick}/> );
     })
 
     return (
