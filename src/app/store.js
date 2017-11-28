@@ -39,7 +39,7 @@ const combinedReducers = combineReducers({
 })
 
 const store = createStore(combinedReducers, /* preloadedState, */ compose(
-    applyMiddleware(thunk, session),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  applyMiddleware(thunk, session),
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 ));
 export { store, apolloClient }

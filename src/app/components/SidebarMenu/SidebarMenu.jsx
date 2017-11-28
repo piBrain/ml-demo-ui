@@ -4,6 +4,7 @@ import Profile from '../Profile/Profile.jsx';
 import Login from '../Login/Login.jsx';
 import SignUp from '../SignUp/SignUp.jsx';
 import SideHeader from '../SideHeader/SideHeader.jsx';
+import ServiceSelector from '../ServiceSelector/ServiceSelector.jsx'
 import TeamSelector from '../TeamSelector/TeamSelector.jsx'
 import ReactCSSTransitionReplace from 'react-css-transition-replace';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -74,6 +75,7 @@ export default class SidebarMenu extends Component {
       <div className={sideClassName} >
       <div>
       <Profile active={this.props.loggedIn} />
+      <ServiceSelector data={this.props.teams} active={this.props.loggedIn} setActiveTeam={this.props.setActiveTeam}/>
       <TeamSelector data={this.props.teams} active={this.props.loggedIn} setActiveTeam={this.props.setActiveTeam}/>
       </div>
       <SideHeader active={!this.props.loggedIn} toggleLogin={this.props.toggleLoginRegister} animate={true} />

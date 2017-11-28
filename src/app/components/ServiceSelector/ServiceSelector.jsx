@@ -1,6 +1,6 @@
 import React from 'react';
 import  './ServiceSelector.css'
-import Team from './Service/Service.jsx'
+import Service from './Service/Service.jsx'
 import ReactCSSTransitionReplace from 'react-css-transition-replace';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
@@ -24,7 +24,7 @@ export default class ServiceSelector extends React.Component {
     })
 
     return (
-      <div className={this.props.active ? "services-c active" : "teams"}>
+      <div className={this.props.active ? "services-c active" : "services-c"}>
         <ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
           {services}
         </ReactCSSTransitionGroup>
