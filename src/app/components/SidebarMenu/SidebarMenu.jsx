@@ -15,19 +15,18 @@ export default class SidebarMenu extends Component {
     this.handleRegister = this.handleRegister.bind(this)
   }
 
-  handleLogin(vals) {
+  async handleLogin(vals) {
     var email = vals.email.trim();
     var password = vals.password;
     if (!email || !password) {
       return;
     }
-    const askServerForSession = ((email, password) => ({ err: false, data: { token: 'I-am-token' }}))(email, password)
-
+    const askServerForSession = (await this.props.submitLogin({email, password})).data.login
     if(!askServerForSession.err) {
       const token = askServerForSession.data.token
       this.props.toggleLogin()
       this.props.setSessionToken()
-      const askServerForTeams = ((token) => ({err: false, data: { teams: [{name: 'piBrain'}, {name: 'team2'}] }}))(token)
+      const askServerForTeams = 
       this.props.setTeams(askServerForTeams.data.teams)
       this.props.setActiveTeam(askServerForTeams.data.teams[0])
       const askServerForMessages = ((token) => ({
@@ -37,9 +36,25 @@ export default class SidebarMenu extends Component {
           {team: 'team2', message: 'Today is a wonderful day.', author: 'Ian Butler'}
         ] }}))(token)
       askServerForMessages.data.messages.forEach((msg) => this.props.addMessageToList(msg))
+      return
     }
+    this.props.setFormErrors('forms.login', { badCreds: true })
+  }
 
-
+  async handleRegister(vals) {
+    const birthday = `${vals.year}-${vals.month}-${vals.day}`
+    const userInfo =  { ...vals, birthday }
+    delete userInfo.day
+    delete userInfo.month
+    delete userInfo.year
+    const res =  await this.props.submitSignUp(userInfo)
+    const data = res.data.signUpUser
+    if(data.err && data.response == 'There is already an active user with that email.') {
+      this.props.setFormErrors('forms.register.email', { existingUser: true })
+      return
+    }
+    this.props.clearForm('forms.register')
+    this.props.completeRegistration(data.response)
   }
 
   componentDidMount() {
@@ -59,10 +74,6 @@ export default class SidebarMenu extends Component {
     }
   }
 
-  handleRegister(vals) {
-
-  }
-
   render(props) {
     var sideClassName = 'side-container'
     if (this.props.loggedIn) {
@@ -76,9 +87,15 @@ export default class SidebarMenu extends Component {
       <Profile active={this.props.loggedIn} />
       <TeamSelector data={this.props.teams} active={this.props.loggedIn} setActiveTeam={this.props.setActiveTeam}/>
       </div>
-      <SideHeader active={!this.props.loggedIn} toggleLogin={this.props.toggleLoginRegister} animate={true} />
+      <SideHeader active={!this.props.loggedIn} toggleLogin={this.props.toggleLoginRegister} displayLogin={this.props.displayLogin} animate={true} />
       <Login active={(this.props.displayLogin && this.props.loggedIn == false )} handleSubmit={this.handleLogin} />
-      <SignUp active={(!this.props.displayLogin && this.props.loggedIn == false)} />
+      <SignUp
+        resetFormValidity={this.props.resetFormValidity}
+        handleSubmit={this.handleRegister}
+        active={(!this.props.displayLogin && this.props.loggedIn == false)}
+        registered={this.props.registered}
+        registeredMsg={this.props.registeredMsg}
+      />
       <p className={this.props.toggleLogin ? "footer-links adjust" : "footer-links"}>
       <span className="link">Privacy</span> / <span className="link">Terms</span> / piBrain © {new Date().getFullYear()}
       </p>

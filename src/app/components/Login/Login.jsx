@@ -23,7 +23,12 @@ export default class Login extends Component {
   render(props) {
     return (
       <div id="login" className={this.props.active ? "login-container active" : "login-container" }>
-      <Form model="forms.login" className="login-form" onSubmit={this.props.handleSubmit}>
+      <Form model="forms.login" className="login-form" onSubmit={this.props.handleSubmit} >
+        <Errors className="form-errors" model='forms.login' show='touched'
+          messages={{
+            badCreds: 'Cannot login with credentials provided.'
+          }}
+        />
         <Control.text type="email" model='.email' className={"input email"} placeholder='john.doe@example.com'/>
         <br></br>
         <Control.text model='.password' type={"password"} className={"input password"} placeholder='password'/>

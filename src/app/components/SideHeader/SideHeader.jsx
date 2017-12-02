@@ -17,8 +17,8 @@ export default class SideHeader extends Component {
         transitionEnter = {false} transitionLeave = {false}>
       <div className={this.props.active ? "header-container active" : "header-container"}>
         <p key="new" className="login-header">
-        <span className={this.props.active ? "login active" : "login"} onClick={ () => this.props.toggleLogin(true)}>Login</span>|
-        <span className={this.props.active ? "signup" : "signup active"} onClick={ () => this.props.toggleLogin(false)}>Register</span>
+        <span className={this.props.displayLogin ? "login active" : "login"} onClick={ () => this.props.toggleLogin(true)}>Login</span>|
+        <span className={this.props.displayLogin ? "signup" : "signup active"} onClick={ () => this.props.toggleLogin(false)}>Register</span>
         </p>
       </div>
       </ReactCSSTransitionGroup>

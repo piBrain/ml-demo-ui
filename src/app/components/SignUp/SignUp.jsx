@@ -11,21 +11,9 @@ export default class SignUp extends Component {
     this.createNumArray = this.createNumArray.bind(this);
     this.createYearArray = this.createYearArray.bind(this);
     this.createLocationOptions = this.createLocationOptions.bind(this);
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    var email = this.state.email.trim();
-    var password = this.state.password;
-    if (!email || !password) {
-      return;
-    }
-
-    this.props.onSubmit({email: email, password: password });
-    this.setState({
-      email: '',
-      password: ''
-    });
+    this.resetErrors = this.resetErrors.bind(this)
+    this.renderForm = this.renderForm.bind(this)
+    this.renderCompleted = this.renderCompleted.bind(this)
   }
 
   validateEmail(value) {
@@ -48,8 +36,10 @@ export default class SignUp extends Component {
 
   createNumArray( maxValue ) {
     var options = [];
+    const twoDigit = (num) => (`0${num}`).slice(-2)
     for (let i=1; i <= maxValue; i++ ) {
-      options.push({ value: i, label: i });
+      const rep = twoDigit(i)
+      options.push({ value: rep, label: rep });
     }
     return options;
   }
@@ -323,24 +313,100 @@ export default class SignUp extends Component {
     return locations;
   }
 
-  render(props) {
+  resetErrors(e) {
+    const field = e.target.name
+    this.props.resetFormValidity('forms.register', [field])
+  }
+
+  renderCompleted() {
+    return (
+      <div>
+        <p>{this.props.registeredMsg}</p>
+      </div>
+    )
+  }
+
+  renderForm() {
     const mapToOption = (opt) => (<option value={opt['value']} key={opt['value']}>{opt['label']}</option>)
-    var monthArray = this.createNumArray( 12 ).map(mapToOption);
-    var dayArray = this.createNumArray( 31 ).map(mapToOption);
-    var yearArray = this.createYearArray(1900).map(mapToOption);
+    const monthArray = this.createNumArray( 12 ).map(mapToOption);
+    const dayArray = this.createNumArray( 31 ).map(mapToOption);
+    const yearArray = this.createYearArray(1900).map(mapToOption);
+    const secQuestionOptions = [{value: 'What was the name of your first pet?' , label: 'What was the name of your first pet?' },
+      {value: 'What was your most rewarding moment in life?' , label: 'What was your most rewarding moment in life?' },
+      {value: 'What was the name of your first kiss?' , label: 'What was the name of your first kiss?' },
+      {value: 'What celebrity do you most resemble?' , label: 'What celebrity do you most resemble?' }].map(mapToOption)
     var genderOptions = [{ value:  'f', label: 'Female'}, { value:  'm', label: 'Male'}, { value:  'o', label: 'Other'}, { value:  'r', label: 'Rather not say'}].map(mapToOption)
     const locationOptions = this.createLocationOptions().map(mapToOption)
-
+    const isRequired = (val) => val && val.length
+    const isPhone = (val) => val.match(/^\d{10}$/)
+    const isLongEnough = (val) => val.length >= 16
+    const  isSufficientlyComplex = (val) => {
+      var arrayPass = new Array(val)
+      let passesSymCheck = arrayPass.some((chr) => {
+        return chr.match(/[ !"#\$%&'\(\)\?\*\+\,\-\./\:;\<\=\>?@\[\\\]\^_`\{\|\}~]/)
+      })
+      let passesNumericCheck = arrayPass.some((chr) => { return chr.match(/\d/) })
+      let passesAlphaCheck = arrayPass.some((chr) => { return chr.match(/[a-zA-Z]/)})
+      if(passesSymCheck && passesNumericCheck && passesAlphaCheck) {
+        return true
+      }
+      return false
+    }
     return (
       <div id="signup" className={this.props.active ? "signup-container active" : "signup-container" }>
-        <Form  model='forms.register' className="signup-form">
+        <Form  model='forms.register' className="signup-form" onSubmit={this.props.handleSubmit}
+          validators={{
+              '': {
+                passwordsMatch: (vals) => vals.password === vals.confirmPassword,
+              },
+              password: { isRequired, isLongEnough, isSufficientlyComplex },
+              email: { isRequired },
+              firstName: { isRequired },
+              lastName: { isRequired },
+              phoneNumber: { isRequired, isPhone }
+          }}
+        >
           <Control.text model='.firstName' placeholder='First Name'/>
+          <Errors className="form-errors" model='.firstName' show='touched'
+            messages={{
+              isRequired: 'Cannot be blank!'
+            }}
+          />
           <br></br>
           <Control.text model='.lastName' placeholder='Last Name'/>
+          <Errors className="form-errors" model='.lastName' show='touched'
+            messages={{
+              isRequired: 'Cannot be blank!'
+            }}
+          />
           <br></br>
-          <Control.text type='email' model='.email' placeholder='Email'/>
+          <Control.text type='text' model='.phoneNumber' placeholder='Phone' />
+          <Errors className="form-errors" model='.phoneNumber' show='touched'
+            messages={{
+              isPhone: 'Must be a phone number in the form xxxxxxxxxx .',
+              isRequired: 'Cannot be blank!'
+            }}
+          />
+          <Control.text type='email' model='.email' placeholder='Email' onChange={this.resetErrors}/>
+          <Errors className="form-errors" model='forms.register.email' show='touched'
+            messages={{
+              existingUser: 'User with that e-mail already exists',
+              isRequired: 'Cannot be blank!'
+            }}
+          />
           <br></br>
           <Control.text type='password' model='.password' placeholder='Password'/>
+          <Errors className="form-errors" model='forms.register' show='touched'
+            messages={{
+              passwordsMatch: 'Passwords must match!',
+            }}
+          />
+          <Errors className="form-errors" model='.password' show='touched'
+            messages={{
+              isSufficientlyComplex: 'Must have at least 1 of each:  number, letter, and symbol("#$%&\'()*+,-./:;<=>?@[\]^_`{|}~)',
+              isLongEnough: 'Must be atleast 16 characters.'
+            }}
+          />
           <Control.text type='password' model='.confirmPassword' placeholder='Confirm Password'/>
           <br></br>
           <p className="form-label">Birthday</p>
@@ -367,10 +433,32 @@ export default class SignUp extends Component {
               {locationOptions}
             </Control.select>
           </div>
-          <input className="submit-btn" type="submit" value="Post" />
+          <div className="split-container">
+            <p className="form-label">Security Questions</p>
+          </div>
+          <div className="line-container split">
+            <Control.select model='.secQuestion1' className='sec-dropdown'>
+              {secQuestionOptions}
+            </Control.select>
+            <Control.text model='.secQuestionResponse1' className='sec-answer' />
+          </div>
+          <div className="line-container split">
+            <Control.select className='sec-dropdown' model='.secQuestion2'>
+              {secQuestionOptions}
+            </Control.select>
+            <Control.text className='sec-answer' model='.secQuestionResponse2' />
+          </div>
+          <input className="submit-btn" type="submit" value="Register" />
         </Form>
       </div>
     );
+  }
+
+  render(props) {
+    if(this.props.registered) {
+      return this.renderCompleted()
+    }
+    return this.renderForm()
   }
 }
 

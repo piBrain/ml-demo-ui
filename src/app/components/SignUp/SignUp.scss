@@ -33,6 +33,22 @@
     border: 3px solid #555;
   }
 
+  .signup-form {
+    height: 90%;
+    margin-top: 4vh;
+    margin-left: 2vw;
+    transform: scale(1, 0.85);
+  }
+
+  input.sec-answer {
+    width: 37.5%;
+    margin-bottom: 0;
+  }
+
+  input.sec-dropdown {
+    margin-bottom: 0;
+  }
+
   .line-container {
     width: 100%;
     overflow: hidden;
