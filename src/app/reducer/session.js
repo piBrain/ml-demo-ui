@@ -1,4 +1,4 @@
-import { LOAD_STORED_STATE, SET_TOKEN, TOGGLE_LOGIN, SET_TEAMS, SET_ACTIVE_TEAM } from '../actions.js'
+import { LOAD_STORED_STATE, SET_TOKEN, TOGGLE_LOGIN, SET_ACTIVE_TEAM } from '../actions.js'
 const loadStoredState = (action, state) => ({
   ...action.storedState,
   teams: []
@@ -10,12 +10,7 @@ const setActiveTeam = (action, state) => ({
 })
 const setToken = (action, state) => ({
   ...state,
-  token: action.token || ''
-})
-
-const setTeams = (action, state) => ({
-  ...state,
-  teams: [ ...action.teams ]
+  token: action.token
 })
 
 const toggleLogin = (_, state) => ({
@@ -27,7 +22,6 @@ export default (state={ token: '', loggedIn: false, teams: []}, action) => {
     LOAD_STORED_STATE: loadStoredState,
     SET_TOKEN: setToken,
     TOGGLE_LOGIN: toggleLogin,
-    SET_TEAMS: setTeams,
     SET_ACTIVE_TEAM: setActiveTeam
   }
   if(typeof actions[action.type] === 'undefined') { return state }

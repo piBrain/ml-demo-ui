@@ -23,12 +23,12 @@ export default class SidebarMenu extends Component {
     }
     const askServerForSession = (await this.props.submitLogin({email, password})).data.login
     if(!askServerForSession.err) {
-      const token = askServerForSession.data.token
+      const token = askServerForSession.data.nonce
       this.props.toggleLogin()
-      this.props.setSessionToken()
-      const askServerForTeams = 
-      this.props.setTeams(askServerForTeams.data.teams)
-      this.props.setActiveTeam(askServerForTeams.data.teams[0])
+      this.props.setSessionToken(token)
+      const teams = (await this.props.client.resetStore())[0].data.getTeams.data.teams
+      if(!teams.length > 0) { return }
+      this.props.setActiveTeam(teams[0])
       const askServerForMessages = ((token) => ({
         err: false, data: { messages: [
           {team: 'piBrain', message: 'Hi', author: 'Ian Butler'},
@@ -57,21 +57,8 @@ export default class SidebarMenu extends Component {
     this.props.completeRegistration(data.response)
   }
 
-  componentDidMount() {
-    if(this.props.loggedIn) {
-      const askServerForTeams = ((token) => ({err: false, data: { teams: [{name: 'piBrain'}, {name: 'team2'}] }}))(this.props.token)
-      this.props.setTeams(askServerForTeams.data.teams)
-      console.log(this.props)
-      const objIncluded = (arr, obj) => {
-        for(let x in arr) {
-          if(obj.name == x.name) {return true}
-        }
-        return false
-      }
-      if(!objIncluded(askServerForTeams.data.teams, this.props.activeTeam)) {
-        this.props.setActiveTeam(askServerForTeams.data.teams[0])
-      }
-    }
+  async componentWillMount() {
+    await this.props.subscribeToTeamUpdates({ nonce: this.props.token })
   }
 
   render(props) {
@@ -81,11 +68,15 @@ export default class SidebarMenu extends Component {
     } else {
       if(!this.props.displayLogin) { sideClassName = sideClassName + ' ' + 'register'}
     }
+    let teams = []
+    if(!this.props.teams.loading) {
+      teams = this.props.teams.getTeams.data.teams
+    }
     return (
       <div className={sideClassName} >
       <div>
       <Profile active={this.props.loggedIn} />
-      <TeamSelector data={this.props.teams} active={this.props.loggedIn} setActiveTeam={this.props.setActiveTeam}/>
+      <TeamSelector data={teams} active={this.props.loggedIn} setActiveTeam={this.props.setActiveTeam}/>
       </div>
       <SideHeader active={!this.props.loggedIn} toggleLogin={this.props.toggleLoginRegister} displayLogin={this.props.displayLogin} animate={true} />
       <Login active={(this.props.displayLogin && this.props.loggedIn == false )} handleSubmit={this.handleLogin} />
