@@ -24,11 +24,11 @@ export default class ServiceSelector extends React.Component {
     })
 
     return (
-      <div className={this.props.active ? "services-c active" : "services-c"}>
+      <ol className={this.props.active ? "services-c active" : "services-c"}>
         <ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
           {services}
         </ReactCSSTransitionGroup>
-      </div>
+      </ol>
     );
   }
 }

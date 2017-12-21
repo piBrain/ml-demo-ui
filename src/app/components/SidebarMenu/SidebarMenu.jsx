@@ -75,7 +75,6 @@ export default class SidebarMenu extends Component {
       <div className={sideClassName} >
       <div>
       <Profile active={this.props.loggedIn} />
-      <ServiceSelector data={this.props.teams} active={this.props.loggedIn} setActiveTeam={this.props.setActiveTeam}/>
       <TeamSelector data={this.props.teams} active={this.props.loggedIn} setActiveTeam={this.props.setActiveTeam}/>
       </div>
       <SideHeader active={!this.props.loggedIn} toggleLogin={this.props.toggleLoginRegister} animate={true} />

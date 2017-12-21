@@ -15,12 +15,14 @@ export default class Service extends Component {
   }
   render(props) {
     return (
-      <div className={'team'} onClick={this.doClick}>
-        <div className="avatar">
+      <li className={'service'} onClick={this.doClick}>
+        <div className="logo">
           <img src={this.props.logo} alt={this.props.name} />
         </div>
-        <p className="name">{this.props.name}</p>
-      </div>
+        <div className="name">
+          <p className="name">{this.props.name}</p>
+        </div>
+      </li>
     );
   }
 }
