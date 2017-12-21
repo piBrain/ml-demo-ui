@@ -4,6 +4,7 @@ import Profile from '../Profile/Profile.jsx';
 import Login from '../Login/Login.jsx';
 import SignUp from '../SignUp/SignUp.jsx';
 import SideHeader from '../SideHeader/SideHeader.jsx';
+import ServiceSelector from '../ServiceSelector/ServiceSelector.jsx'
 import TeamSelector from '../TeamSelector/TeamSelector.jsx'
 import ReactCSSTransitionReplace from 'react-css-transition-replace';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
