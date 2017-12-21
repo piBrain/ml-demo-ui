@@ -10,14 +10,14 @@ import sessionReducer from './reducer/session.js'
 import formsReducer from './reducer/forms.js'
 import thunk from 'redux-thunk';
 import ApolloClient, { createNetworkInterface } from 'apollo-client'
+import { InMemoryCache } from 'apollo-cache-inmemory';
 import getConfigs from '../../config'
+import link from './networkInterface'
 import { createSession } from 'redux-session'
 
-
-const { apiUrl } = getConfigs()
-const networkInterface = createNetworkInterface({ uri: `${apiUrl}/graphql` })
 const apolloClient = new ApolloClient({
-  networkInterface
+  link,
+  cache: new InMemoryCache()
 })
 const session = createSession({
   ns: 'aura-cli',
@@ -32,7 +32,6 @@ const session = createSession({
 
 const combinedReducers = combineReducers({
   chatboxState: chatboxStateReducer,
-  apollo: apolloClient.reducer(),
   loginFlowState: LoginFlowStateReducer,
   forms: formsReducer,
   session: sessionReducer

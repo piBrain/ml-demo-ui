@@ -15,30 +15,28 @@ export default class Chatbox extends Component {
   async handleMessageSubmit( values ) {
    this.props.setPending('forms.chatbox', true);
    try {
-     const userMessage = { ...values, team: this.props.activeTeam.name }
+     const userMessage = { ...values, nonce: this.props.token, teamName: this.props.activeTeam.name }
      this.props.clearForm('forms.chatbox')
-     this.props.addMessageToList(userMessage)
      const res = await this.props.chatboxSendRequest(userMessage)
-     if(res.data.sendRequest.err) {
-       this.props.addPendingMessage({author:'Aura', message:"I'm sorry, something seems to have gone wrong on my end.", team: this.props.activeTeam.name})
-     } else {
-       this.props.addPendingMessage({author: 'Aura', message: res.data.sendRequest.data, team: this.props.activeTeam.name})
-     }
     } catch(e) {
       console.error(e)
       this.props.setSubmitFailed('chatbox')
-      this.props.displaySubmitError({err: true, response: 'Whoops! Something went wrong.'})
    }
   }
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.pendingMessages.length > 0) {
-      nextProps.clearPendingMessages()
-    }
+
+  async componentWillMount() {
+    await this.props.subscribeToMessages({ nonce: this.props.token })
   }
 
   render(props) {
-    const messages = this.props.messageList.filter((msg) => msg.team === this.props.activeTeam.name)
-    console.log(messages)
+    let messages = []
+    if(!this.props.messages.loading) {
+      messages = this.props.messages.getMessages.data.messages
+      if(this.props.messages.getMessages.data.messages[0].team != this.props.activeTeam.name) {
+        this.props.messages.refetch()
+        messages = []
+      }
+    }
     return (
       <div id="chatbox" className={this.props.loggedIn ?  "chatbox-container active" : "chatbox-container"}>
         <MessageList data={messages}/>

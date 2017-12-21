@@ -19,7 +19,8 @@ export default class App extends Component {
 
   render(props) {
     return (
-			<ApolloProvider store= { store } client = { apolloClient } >
+      <Provider store = { store } >
+			<ApolloProvider client = { apolloClient } >
       <div>
         <Header sidebar_active={this.state.sidebar_active} toggleSidebar={this.toggleSidebar} />
         <Switch>
@@ -27,6 +28,7 @@ export default class App extends Component {
         </Switch>
       </div>
 			</ApolloProvider>
+      </Provider>
     );
   }
 }

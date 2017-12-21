@@ -16,21 +16,20 @@ export default class SidebarMenu extends Component {
     this.handleRegister = this.handleRegister.bind(this)
   }
 
-  handleLogin(vals) {
+  async handleLogin(vals) {
     var email = vals.email.trim();
     var password = vals.password;
     if (!email || !password) {
       return;
     }
-    const askServerForSession = ((email, password) => ({ err: false, data: { token: 'I-am-token' }}))(email, password)
-
+    const askServerForSession = (await this.props.submitLogin({email, password})).data.login
     if(!askServerForSession.err) {
-      const token = askServerForSession.data.token
+      const token = askServerForSession.data.nonce
       this.props.toggleLogin()
-      this.props.setSessionToken()
-      const askServerForTeams = ((token) => ({err: false, data: { teams: [{name: 'piBrain'}, {name: 'team2'}] }}))(token)
-      this.props.setTeams(askServerForTeams.data.teams)
-      this.props.setActiveTeam(askServerForTeams.data.teams[0])
+      this.props.setSessionToken(token)
+      const teams = (await this.props.client.resetStore())[0].data.getTeams.data.teams
+      if(!teams.length > 0) { return }
+      this.props.setActiveTeam(teams[0])
       const askServerForMessages = ((token) => ({
         err: false, data: { messages: [
           {team: 'piBrain', message: 'Hi', author: 'Ian Butler'},
@@ -38,30 +37,29 @@ export default class SidebarMenu extends Component {
           {team: 'team2', message: 'Today is a wonderful day.', author: 'Ian Butler'}
         ] }}))(token)
       askServerForMessages.data.messages.forEach((msg) => this.props.addMessageToList(msg))
+      return
     }
-
-
+    this.props.setFormErrors('forms.login', { badCreds: true })
   }
 
-  componentDidMount() {
-    if(this.props.loggedIn) {
-      const askServerForTeams = ((token) => ({err: false, data: { teams: [{name: 'piBrain'}, {name: 'team2'}] }}))(this.props.token)
-      this.props.setTeams(askServerForTeams.data.teams)
-      console.log(this.props)
-      const objIncluded = (arr, obj) => {
-        for(let x in arr) {
-          if(obj.name == x.name) {return true}
-        }
-        return false
-      }
-      if(!objIncluded(askServerForTeams.data.teams, this.props.activeTeam)) {
-        this.props.setActiveTeam(askServerForTeams.data.teams[0])
-      }
+  async handleRegister(vals) {
+    const birthday = `${vals.year}-${vals.month}-${vals.day}`
+    const userInfo =  { ...vals, birthday }
+    delete userInfo.day
+    delete userInfo.month
+    delete userInfo.year
+    const res =  await this.props.submitSignUp(userInfo)
+    const data = res.data.signUpUser
+    if(data.err && data.response == 'There is already an active user with that email.') {
+      this.props.setFormErrors('forms.register.email', { existingUser: true })
+      return
     }
+    this.props.clearForm('forms.register')
+    this.props.completeRegistration(data.response)
   }
 
-  handleRegister(vals) {
-
+  async componentWillMount() {
+    await this.props.subscribeToTeamUpdates({ nonce: this.props.token })
   }
 
   render(props) {
@@ -71,15 +69,25 @@ export default class SidebarMenu extends Component {
     } else {
       if(!this.props.displayLogin) { sideClassName = sideClassName + ' ' + 'register'}
     }
+    let teams = []
+    if(!this.props.teams.loading) {
+      teams = this.props.teams.getTeams.data.teams
+    }
     return (
       <div className={sideClassName} >
       <div>
       <Profile active={this.props.loggedIn} />
-      <TeamSelector data={this.props.teams} active={this.props.loggedIn} setActiveTeam={this.props.setActiveTeam}/>
+      <TeamSelector data={teams} active={this.props.loggedIn} setActiveTeam={this.props.setActiveTeam}/>
       </div>
-      <SideHeader active={!this.props.loggedIn} toggleLogin={this.props.toggleLoginRegister} animate={true} />
+      <SideHeader active={!this.props.loggedIn} toggleLogin={this.props.toggleLoginRegister} displayLogin={this.props.displayLogin} animate={true} />
       <Login active={(this.props.displayLogin && this.props.loggedIn == false )} handleSubmit={this.handleLogin} />
-      <SignUp active={(!this.props.displayLogin && this.props.loggedIn == false)} />
+      <SignUp
+        resetFormValidity={this.props.resetFormValidity}
+        handleSubmit={this.handleRegister}
+        active={(!this.props.displayLogin && this.props.loggedIn == false)}
+        registered={this.props.registered}
+        registeredMsg={this.props.registeredMsg}
+      />
       <p className={this.props.toggleLogin ? "footer-links adjust" : "footer-links"}>
       <span className="link">Privacy</span> / <span className="link">Terms</span> / piBrain © {new Date().getFullYear()}
       </p>

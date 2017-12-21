@@ -7,7 +7,8 @@
   overflow: hidden;
   margin-bottom: 40px;
   box-shadow: inset 1px 2px 3px 1px rgba(34, 34, 34, 0);
-  display: none; }
+  display: none;
+  z-index: 9999; }
   .header-container.active {
     display: block; }
   .header-container .login-header {

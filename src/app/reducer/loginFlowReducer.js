@@ -1,19 +1,30 @@
-import { TOGGLE_PROFILE, TOGGLE_LOGIN_REGISTER } from '../actions.js'
+import { TOGGLE_LOGIN_REGISTER, COMPLETE_REGISTRATION } from '../actions.js'
 
 const initialState = {
-  displayLogin: true
+  displayLogin: true,
+  registered: false,
+  registeredMsg: ''
 }
 
-const toggleLoginRegister = (_, state) => {
+const toggleLoginRegister = (action, state) => {
   return {
     ...state,
-    displayLogin: !state.displayLogin
+    displayLogin: action.bool
+  }
+}
+
+const completeRegistration = (action, state) => {
+  return {
+    ...state,
+    registered: true,
+    registeredMsg: action.msg
   }
 }
 
 export const LoginFlowStateReducer = (state=initialState, action) => {
   const actions = {
-    TOGGLE_LOGIN_REGISTER: toggleLoginRegister
+    TOGGLE_LOGIN_REGISTER: toggleLoginRegister,
+    COMPLETE_REGISTRATION: completeRegistration
   }
   if(typeof actions[action.type] === 'undefined') { return state }
   return actions[action.type](action, state)
