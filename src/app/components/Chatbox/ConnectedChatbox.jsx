@@ -23,7 +23,7 @@ const sendRequest = gql`
     )
   }
 `
-const loadMessages = gql`query loadMessages($nonce: String!, $timeStamp: DateTime!, $teamFilter: JSON!) {
+const loadMessages = gql`query loadMessages($nonce: String!, $timeStamp: DateTime!, $teamFilter: JSON) {
   getMessages(nonce: $nonce, timeStamp: $timeStamp, teamFilter: $teamFilter)
 }`
 

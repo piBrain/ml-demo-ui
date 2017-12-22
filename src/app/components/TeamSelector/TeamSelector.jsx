@@ -19,10 +19,12 @@ export default class TeamSelector extends React.Component {
     this.props.setActiveTeam(findTeam(this.props.data, val))
   }
   render(props) {
-    var teams = this.props.data.map((team, index) => {
-      return ( <Team key={index} name={team.name} logo={team.logo} handleClick={this.handleClick}/> );
-    })
-
+    var teams = []
+    if(this.props.data) {
+      teams = this.props.data.map((team, index) => {
+        return ( <Team key={index} name={team.name} logo={team.logo} handleClick={this.handleClick}/> );
+      })
+    }
     return (
       <ol className={this.props.active ? "teams active" : "teams"}>
         <ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={300} transitionLeaveTimeout={300}>

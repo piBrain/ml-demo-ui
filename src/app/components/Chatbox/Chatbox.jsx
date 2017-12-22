@@ -30,7 +30,7 @@ export default class Chatbox extends Component {
 
   render(props) {
     let messages = []
-    if(!this.props.messages.loading) {
+    if(!this.props.messages.loading && this.props.messages.getMessages.data.messages.length > 0) {
       messages = this.props.messages.getMessages.data.messages
       if(this.props.messages.getMessages.data.messages[0].team != this.props.activeTeam.name) {
         this.props.messages.refetch()
